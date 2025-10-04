@@ -1,0 +1,4 @@
+Django>=4.2
+djangorestframework
+elasticsearch>=8.0.0
+elasticsearch-dsl>=8.0.0
