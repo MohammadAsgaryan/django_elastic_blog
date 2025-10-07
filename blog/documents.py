@@ -11,15 +11,16 @@ class ArticleIndex(Document):
     content = Text()
     category = Keyword()
     published_date = Date()
-    tags = Nested(properties={
-        'name': Text(),
-        'value': Keyword()
-    })
+    tags = Keyword(multi=True) 
     views = Integer()
 
     class Index:
         name = 'articles'
-
+        settings = {
+            'number_of_shards': 1,
+            'number_of_replicas': 0
+        }
+        
     @classmethod
     def from_article(cls, article: Article):
         return cls(
@@ -27,6 +28,7 @@ class ArticleIndex(Document):
             title=article.title,
             content=article.content,
             category=article.category,
+            tags=article.tags,
             published_date=article.published_date,
             tags=article.tags,
             views=article.views
