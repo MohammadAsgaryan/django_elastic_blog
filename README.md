@@ -10,92 +10,71 @@ Features: indexing, search (multi-match, nested), aggregations, scripting, bulk 
 4. python manage.py runserver
 5. python manage.py reindex  # optional to reindex all DB objects to ES
 
-
- Article Management API
+Article and Author Management API
 
 Project Description
-This project is a RESTful API designed for managing articles, providing a seamless and efficient way for users to create, update, delete, and search for articles. The API facilitates essential functionalities, allowing users to manage articles and perform advanced queries using Elasticsearch. Nested tags with name and description fields are supported.
 
+This project is a RESTful API designed for managing articles and authors. It allows users to efficiently create, update, delete, and search for articles and authors.
+With Elasticsearch integration, it supports advanced search capabilities and filtering.
 
- Roadmap
-- As an administrator, you can add, update, or delete articles and have full access to CRUD operations.  
-- As a user, you can browse and search articles based on various filters like tags, categories, and published date.
+Roadmap
+
+Administrator:
+Full CRUD access to authors and articles
+Ability to manage all resources
+
+User:
+Browse and search articles
+Filter articles by tags, categories, and author names
 
 API Endpoints
+Authors Endpoints
+Action	Method	URL	Description
+Create Author	POST	/authors/create/	Create a new author
+List Authors	GET	/authors/list/	List all authors. Supports filtering by name or specialization
+Find Author by Article ID	GET	/authors/byArticle/<article_id>/	Find the author of a specific article
+Retrieve Author Details	GET	/authors/str:pk
+/	Get detailed information about a specific author
+Update Author	PUT	/authors/str:pk
+/	Update author information
+Delete Author	DELETE	/authors/str:pk
+/	Delete a specific author
+Count Articles by Author	GET	/authors/count/	Get the number of articles per author
+
+Example: Create Author
+
+{
+  "name": "Author Name",
+  "specialization": "Author Specialization",
+  "biography": "Biography of the author"
+}
 
 Articles Endpoints
+Action	Method	URL	Description
+Create Article	POST	/articles/create/	Create a new article
+List Articles	GET	/articles/list/	List all articles. Supports filtering by title, tags, and categories
+Search Articles	GET	/articles/search/	Advanced search with query parameters: keyword, tags, categories, author, start_date, end_date
+Retrieve Article Details	GET	/articles/str:pk
+/	Get detailed information about a specific article
+Update Article	PUT	/articles/str:pk
+/	Update a specific article
+Delete Article	DELETE	/articles/str:pk
+/	Delete a specific article
+Calculate Common Tags	POST	/articles/str:article_id
+/calculate-common-tags/	Calculate and update common tags for an article and return similar articles
 
-Create Article
-- **Method:** POST  
-- **URL:** /articles/create/  
-- **Request Body:**
-```json
+Example: Create Article
+
 {
   "title": "Article Title",
   "content": "Content of the article",
-  "category": "Category Name",
-  "tags": [
-    {"name": "tag1", "description": "Description 1"},
-    {"name": "tag2", "description": "Description 2"}
-  ]
+  "author": {
+    "name": "Author Name",
+    "email": "author@example.com"
+  },
+  "tags": ["tag1", "tag2"],
+  "categories": ["category1", "category2"]
 }
-List Articles
-Method: GET
-URL: /articles/list/
-
-Description: Retrieves a list of all articles. You can filter by title, tags, and categories using query parameters.
-
-Search Articles
-Method: GET
-URL: /articles/search/?q=<keyword>
-
-Description: Performs an advanced search on articles based on the specified keyword. Returns a filtered list of articles with nested tags.
-
-Retrieve Article Details
-Method: GET
-URL: /articles/int:pk/
-
-Description: Retrieves detailed information about a specific article by its ID.
-
-Update Article
-Method: PUT
-URL: /articles/int:pk/
-
-Description: Updates the information of a specific article by its ID. Requires the same fields as create.
-
-Delete Article
-Method: DELETE
-URL: /articles/int:pk/
-
-Description: Deletes a specific article by its ID.
-
-Bulk Create Articles
-Method: POST
-URL: /articles/bulk_create/
-
-Request Body: Same structure as create article, but as a list under articles.
-
-Bulk Update Articles
-Method: POST
-URL: /articles/bulk_update/
-
-Request Body: Same structure as bulk create, each article must include its id.
-
-Increment Article Views
-Method: POST
-URL: /articles/int:pk/increase-views/
-
-Request Body:
-
-json
-Copy code
-{
-  "amount": 1
-}
-Article Aggregation
-Method: GET
-URL: /articles/aggregation/
-
 Description: Aggregates articles by tags and published date (monthly). Returns counts for each tag and month.
 
 How to Use the API
