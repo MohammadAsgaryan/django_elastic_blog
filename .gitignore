@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pkl
+*.log
+
+# Django specific
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Environment
+.env
+venv/
+env/
+*.env
+
+# VSCode / PyCharm
+.vscode/
+.idea/
+
+# Migrations cache (optional — keep if you don't want to commit them initially)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+
+# Byte-compiled / optimized / DLL files
+*.dll
+*.so
+*.dylib
+
+# Backup files
+*.bak
+*.swp
+*.swo
+
+# Mac / Windows system files
+.DS_Store
+Thumbs.db
